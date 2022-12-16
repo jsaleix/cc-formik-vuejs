@@ -14,7 +14,7 @@ const props = defineProps({
 })
     const setter = inject('form:setter');
     const formData = inject('form:values');
-</script>   
+</script>
 
 <template>
     <component v-if="(typeof as === 'string')" :is="as" :name="name" :value="formData[name]" @input="(e) => setter(name, e.target.value)">
