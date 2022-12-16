@@ -1,3 +1,3 @@
 import Formik from './components/Formik.vue';
-
-export { Formik };
+import Field from './components/Field.vue';
+export { Formik, Field };
