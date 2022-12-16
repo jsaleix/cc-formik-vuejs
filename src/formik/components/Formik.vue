@@ -1,20 +1,18 @@
 <script setup>
     import { defineProps, reactive, provide, ref, watch } from 'vue';
-
     const props = defineProps({
-    initialValues: {
-        type: Object,
-        required: true,
-    },
-    validate: {
-        type: Function,
-        required: true,
-    },
-    onSubmit: {
-        type: Function,
-        required: true,
-    },
-
+        initialValues: {
+                type: Object,
+                required: true,
+        },
+        validate: {
+                type: Function,
+                required: true,
+        },
+        onSubmit: {
+                type: Function,
+                required: true,
+        },
     });
     let errors = reactive({});
     const values = ref(props.initialValues);
@@ -37,6 +35,9 @@
     provide('form:handleSubmit', handleSubmit);
     provide('form:isSubmitting', isSubmitting);
     provide('form:errors', errors);
+    provide('form:setter', (name, value) => {
+        values.value[name] = value;
+    });
 </script>
 
 <template>

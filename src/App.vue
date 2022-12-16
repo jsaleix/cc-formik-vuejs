@@ -3,9 +3,9 @@
  import Captcha from './components/Captcha.vue';
 
 const initialValues = {
-  name: 'TEST',
-  email: '',
-  password: '',
+  name: 'test',
+  email: 'test@mail.com',
+  select: '1',
 };
 
 const validate = values => {
@@ -66,12 +66,12 @@ const validate = values => {
       <form @submit.prevent="handleSubmit">
         <Field name="name" as="input"/>
         <Field name="email" as="input"/>
-        <Field name="options" as="select">
+        <Field name="select" as="select">
           <option value="1">test1</option>
           <option value="2">test2</option>
           <option value="3">test3</option>
         </Field>
-        <Field name="captcha" :as="Captcha" :options="options"/>
+        <!-- <Field name="captcha" :as="Captcha" :options="options"/> -->
         <button type="submit">Submit</button>
       </form>
     </Formik>

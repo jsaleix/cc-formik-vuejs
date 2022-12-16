@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps} from "vue";
+import { defineProps, inject } from "vue";
 
 const props = defineProps({
     name: {
@@ -12,10 +12,12 @@ const props = defineProps({
         required: true,
     },
 })
+    const setter = inject('form:setter');
+    const formData = inject('form:values');
 </script>   
 
 <template>
-    <component :is="as" :name="name">
+    <component :is="as" :name="name" :value="formData[name]" @input="(e) => setter(name, e.target.value)">
         <slot/>
     </component>
 </template>
