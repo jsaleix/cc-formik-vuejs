@@ -3,12 +3,13 @@
  import Captcha from './components/Captcha.vue';
 
 const initialValues = {
-  name: '',
+  name: 'TEST',
   email: '',
   password: '',
 };
 
 const validate = values => {
+  return {}
   const errors = {};
     if (!values.email) {
       errors.email = 'Required';
@@ -58,11 +59,11 @@ const validate = values => {
 <template>
   <main>
     <Formik
-      v-slot="{ values, isSubmitting, submit }"
+      v-slot="{ values, isSubmitting, handleSubmit, errors }"
       :initialValues="initialValues" 
       :validate="validate" 
       :onSubmit="onSubmit">
-      <form @submit.prevent="submit">
+      <form @submit.prevent="handleSubmit">
         <Field name="name" as="input"/>
         <Field name="email" as="input"/>
         <Field name="options" as="select">
