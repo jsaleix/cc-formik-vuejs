@@ -15,27 +15,29 @@
         },
     });
     const errors = reactive({});
-    const values = ref(props.initialValues);
+    const values = ref({...props.initialValues});
     const isSubmitting = ref(false);
+
     const setSubmitting = (value) => {
         isSubmitting.value = value;
     }
-
-    const handleSubmit = () => {
-        console.log("submit called");
-        setSubmitting(true);
-        let tmpError = props.validate(values.value);
-        Object.assign(errors, tmpError)
-        if(Object.keys(errors).length === 0) {
-            props.onSubmit(values.value, { setSubmitting });
-        }
-        console.log(errors);
+    const resetValues = () => {
+        values.value = props.initialValues;
+        console.log(props.initialValues)
     }
 
-    watch(errors, (newErrors) => {
-        console.log("errors changed");
-        console.log(newErrors);
-    });
+    const handleSubmit = () => {
+        setSubmitting(true);
+        let tmpError = props.validate(values.value);
+        Object.assign(errors, tmpError);
+
+        if(Object.keys(tmpError).length === 0) {
+            console.log('we back')
+            props.onSubmit(values.value, { setSubmitting, resetValues });
+        }else{
+            setSubmitting(false);
+        }
+    }
 
     provide('form:values', values);
     provide('form:handleSubmit', handleSubmit);
@@ -51,8 +53,8 @@
         :handleSubmit="handleSubmit"
         @submit.prevent="handleSubmit"
         :errors="errors"
-        :values="values"
-        :input="input"></slot>
+        :isSubmitting="isSubmitting"
+        :values="values"></slot>
 </template>
 
 <style>

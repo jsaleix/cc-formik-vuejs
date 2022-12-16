@@ -2,37 +2,6 @@
   import { Formik, Field } from './formik';
   import Captcha from './components/Captcha.vue';
 
-  const initialValues = {
-    name: 'test',
-    email: 'test@mail.com',
-    select: 1,
-    captcha: -1,
-  };
-
-  const validate = values => {
-      const tmpErrors = {};
-      if(options.find(option => option.id === values.captcha) === undefined) {
-        tmpErrors.captcha = 'Required';
-      }
-      return tmpErrors;
-  }
-    // if (!values.email) {
-    //   errors.email = 'Required';
-    // } else if (
-    //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-    // ) {
-    //   errors.email = 'Invalid email address';
-    // }
-    // return errors;
-    // }
-
-  const onSubmit= (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
-  }
-
   const options = [
   {
     id: 1,
@@ -59,6 +28,38 @@
     img: "https://picsum.photos/200?random=6",
   },
 ];
+
+  const initialValues = {
+    name: 'test',
+    email: 'test@mail.com',
+    select: 1,
+    captcha: -1,
+  };
+
+  const validate = values => {
+      const tmpErrors = {};
+      if(options.find(option => option.id === values.captcha) === undefined) {
+        tmpErrors.captcha = 'Required';
+      }
+      if(values.name === 'test') {
+        tmpErrors.name = 'Invalid name';
+      }
+      console.log('apres', tmpErrors)
+      if(Object.entries(tmpErrors).length === 0){
+        return {};
+      }
+      return tmpErrors;
+  }
+
+  const onSubmit= (values, { setSubmitting, resetValues }) => {
+    setTimeout(() => {
+      setSubmitting(false);
+      alert(JSON.stringify(values, null, 2));
+      resetValues();
+    }, 1000);
+  }
+
+
 </script>
 
 <template>
@@ -68,22 +69,25 @@
       :initialValues="initialValues" 
       :validate="validate" 
       :onSubmit="onSubmit">
-      {{ JSON.stringify(values)}}
-      {{ JSON.stringify(errors)}}
-      <template v-if="Object.entries(errors).length > 0">
+      <template v-if="isSubmitting">
+        Submitting...
+        </template>
+      <template v-else>
+        <template v-if="Object.entries(errors).length > 0">
           Invalid form
+        </template>
+        <form @submit.prevent="handleSubmit">
+          <Field name="name" as="input"/>
+          <Field name="email" as="input"/>
+          <Field name="select" as="select">
+            <option value="1">test1</option>
+            <option value="2">test2</option>
+            <option value="3">test3</option>
+          </Field>
+          <Field name="captcha" :as="Captcha" :options="options"/>
+          <button type="submit">Submit</button>
+        </form>
       </template>
-      <form @submit.prevent="handleSubmit">
-        <Field name="name" as="input"/>
-        <Field name="email" as="input"/>
-        <Field name="select" as="select">
-          <option value="1">test1</option>
-          <option value="2">test2</option>
-          <option value="3">test3</option>
-        </Field>
-        <Field name="captcha" :as="Captcha" :options="options"/>
-        <button type="submit">Submit</button>
-      </form>
     </Formik>
   </main>
 </template>
