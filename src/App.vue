@@ -1,5 +1,5 @@
 <script setup>
- import { Formik } from './formik';
+ import { Formik, Field } from './formik';
 
 const initialValues = {
   name: '',
