@@ -1,5 +1,6 @@
 <script setup>
  import { Formik, Field } from './formik';
+ import Captcha from './components/Captcha.vue';
 
 const initialValues = {
   name: '',
@@ -25,6 +26,33 @@ const validate = values => {
       setSubmitting(false);
     }, 400);
   }
+
+  const options = [
+  {
+    id: 1,
+    img: "https://picsum.photos/200?random=1",
+  },
+  {
+    id: 2,
+    img: "https://picsum.photos/200?random=2",
+  },
+  {
+    id: 3,
+    img: "https://picsum.photos/200?random=3",
+  },
+  {
+    id: 4,
+    img: "https://picsum.photos/200?random=4",
+  },
+  {
+    id: 5,
+    img: "https://picsum.photos/200?random=5",
+  },
+  {
+    id: 6,
+    img: "https://picsum.photos/200?random=6",
+  },
+];
 </script>
 
 <template>
@@ -42,7 +70,7 @@ const validate = values => {
           <option value="2">test2</option>
           <option value="3">test3</option>
         </Field>
-        <Field name="captcha" as="Captcha" />
+        <Field name="captcha" :as="Captcha" :options="options"/>
         <button type="submit">Submit</button>
       </form>
     </Formik>

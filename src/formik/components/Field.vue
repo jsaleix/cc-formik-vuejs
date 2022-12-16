@@ -15,8 +15,9 @@ const props = defineProps({
 </script>   
 
 <template>
-    <component v-if="(typeof as === 'string')" :is="as" :name="name"/>
-    <component v-else :is="as" :name="name" />
+    <component :is="as" :name="name">
+        <slot/>
+    </component>
 </template>
 
 <style>
