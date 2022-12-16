@@ -1,25 +1,30 @@
 <script setup>
- import { Formik, Field } from './formik';
- import Captcha from './components/Captcha.vue';
+  import { Formik, Field } from './formik';
+  import Captcha from './components/Captcha.vue';
 
-const initialValues = {
-  name: 'test',
-  email: 'test@mail.com',
-  select: '1',
-};
+  const initialValues = {
+    name: 'test',
+    email: 'test@mail.com',
+    select: 1,
+    captcha: -1,
+  };
 
-const validate = values => {
-  return {}
-  const errors = {};
-    if (!values.email) {
-      errors.email = 'Required';
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-    ) {
-      errors.email = 'Invalid email address';
-    }
-    return errors;
+  const validate = values => {
+      const tmpErrors = {};
+      if(options.find(option => option.id === values.captcha) === undefined) {
+        tmpErrors.captcha = 'Required';
+      }
+      return tmpErrors;
   }
+    // if (!values.email) {
+    //   errors.email = 'Required';
+    // } else if (
+    //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+    // ) {
+    //   errors.email = 'Invalid email address';
+    // }
+    // return errors;
+    // }
 
   const onSubmit= (values, { setSubmitting }) => {
     setTimeout(() => {
@@ -63,6 +68,10 @@ const validate = values => {
       :initialValues="initialValues" 
       :validate="validate" 
       :onSubmit="onSubmit">
+      {{ JSON.stringify(errors)}}
+      <template v-if="Object.entries(errors).length > 0">
+          Invalid form
+      </template>
       <form @submit.prevent="handleSubmit">
         <Field name="name" as="input"/>
         <Field name="email" as="input"/>
@@ -71,7 +80,7 @@ const validate = values => {
           <option value="2">test2</option>
           <option value="3">test3</option>
         </Field>
-        <!-- <Field name="captcha" :as="Captcha" :options="options"/> -->
+        <Field name="captcha" :as="Captcha" :options="options"/>
         <button type="submit">Submit</button>
       </form>
     </Formik>

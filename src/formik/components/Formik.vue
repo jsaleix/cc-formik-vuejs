@@ -28,7 +28,7 @@
         if(Object.keys(errors).length === 0) {
             props.onSubmit(values.value, { setSubmitting });
         }
-        //props.onSubmit(data, { setSubmitting });
+        console.log(errors);
     }
 
     provide('form:values', values);

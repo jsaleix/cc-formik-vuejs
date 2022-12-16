@@ -1,47 +1,36 @@
 <script setup>
-defineProps({
-  captcha: {
-    type: Object,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  options: {
-    type: Array,
-    required: true,
-  },
-});
+  import { defineProps, inject } from "vue";
+  const props = defineProps({
+    name: {
+      type: String,
+      required: true,
+    },
+    options: {
+      type: Array,
+      required: true,
+    },
+  });
 
-const emit = defineEmits({
-  "update:captcha": function validator(value) {
-    return typeof value === "object" && value.id && value.img;
-  },
-  toto: () => true,
-});
-
-function handleClick(value) {
-  emit("update:captcha", value);
-}
-function handleAltClick(value) {
-  emit("toto", value);
-}
+  const formData = inject("form:values");
+  const errors = inject("form:errors");
 </script>
 
 <template>
+  {{ JSON.stringify(errors) }}
   <div class="grid">
     <div
-      :class="['grid-item', { selected: modelValue?.id === option.id }]"
+      v-bind:style="{
+        border: formData?.captcha?.id === parseInt(option.id) ? '10px dashed magenta' : 'none',
+      }"
+      v-bind:class="{'grid-item': true, selected: formData?.captcha?.id === parseInt(option.id) }"
       v-for="option in options"
     >
-      <!--img :src="option.img" @click="$emit('update:modelValue', option)" /-->
       <img
         :src="option.img"
-        @click.exact="handleClick(option)"
-        @click.prevent.alt.exact="handleAltClick(option)"
+        @click.exact="$emit('update:formikValue', option.id)"
       />
     </div>
+    <!-- <div v-if=""></div> -->
   </div>
 </template>
 

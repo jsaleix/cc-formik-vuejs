@@ -17,8 +17,11 @@ const props = defineProps({
 </script>   
 
 <template>
-    <component :is="as" :name="name" :value="formData[name]" @input="(e) => setter(name, e.target.value)">
-        <slot/>
+    <component v-if="(typeof as === 'string')" :is="as" :name="name" :value="formData[name]" @input="(e) => setter(name, e.target.value)">
+        <slot />
+    </component>
+    <component v-else :is="as" :name="name" v-on:update:formikValue="(value) => setter(name, value)">
+        <slot />
     </component>
 </template>
 
