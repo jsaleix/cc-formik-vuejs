@@ -29,11 +29,12 @@ const validate = values => {
 
 <template>
   <main>
-    <Formik 
+    <Formik
+      v-slot="{ values, isSubmitting, submit }"
       :initialValues="initialValues" 
       :validate="validate" 
       :onSubmit="onSubmit">
-      <form>
+      <form @submit.prevent="submit">
         <Field name="name" as="input"/>
         <Field name="email" as="input"/>
         <Field name="options" as="select">
@@ -42,7 +43,7 @@ const validate = values => {
           <option value="3">test3</option>
         </Field>
         <Field name="captcha" as="Captcha" />
-
+        <button type="submit">Submit</button>
       </form>
     </Formik>
   </main>
