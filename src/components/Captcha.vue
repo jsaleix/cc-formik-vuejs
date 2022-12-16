@@ -18,10 +18,7 @@
 <template>
   <div class="grid">
     <div
-      v-bind:style="{
-        border: formData?.captcha?.id === parseInt(option.id) ? '10px dashed magenta' : 'none',
-      }"
-      v-bind:class="{'grid-item': true, selected: formData?.captcha?.id === parseInt(option.id) }"
+      v-bind:class="{'grid-item': true, selected: formData['captcha'] === parseInt(option.id) }"
       v-for="option in options"
     >
       <img
@@ -46,6 +43,6 @@
 }
 
 .selected {
-  border: 10px dashed magenta;
+  border: 10px dashed rgb(43, 213, 173);
 }
 </style>
