@@ -14,7 +14,7 @@
                 required: true,
         },
     });
-    let errors = reactive({});
+    const errors = reactive({});
     const values = ref(props.initialValues);
     const isSubmitting = ref(false);
     const setSubmitting = (value) => {
@@ -24,12 +24,18 @@
     const handleSubmit = () => {
         console.log("submit called");
         setSubmitting(true);
-        errors = props.validate(values.value);
+        let tmpError = props.validate(values.value);
+        Object.assign(errors, tmpError)
         if(Object.keys(errors).length === 0) {
             props.onSubmit(values.value, { setSubmitting });
         }
         console.log(errors);
     }
+
+    watch(errors, (newErrors) => {
+        console.log("errors changed");
+        console.log(newErrors);
+    });
 
     provide('form:values', values);
     provide('form:handleSubmit', handleSubmit);

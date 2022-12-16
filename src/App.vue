@@ -68,6 +68,7 @@
       :initialValues="initialValues" 
       :validate="validate" 
       :onSubmit="onSubmit">
+      {{ JSON.stringify(values)}}
       {{ JSON.stringify(errors)}}
       <template v-if="Object.entries(errors).length > 0">
           Invalid form

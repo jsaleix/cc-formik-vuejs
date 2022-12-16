@@ -16,7 +16,6 @@
 </script>
 
 <template>
-  {{ JSON.stringify(errors) }}
   <div class="grid">
     <div
       v-bind:style="{
@@ -30,7 +29,9 @@
         @click.exact="$emit('update:formikValue', option.id)"
       />
     </div>
-    <!-- <div v-if=""></div> -->
+    <div v-if="errors['captcha']">
+      Invalid captcha
+    </div>
   </div>
 </template>
 
